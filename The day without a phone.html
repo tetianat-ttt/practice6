@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The day without a phone</title>
+<style>
+:root{--bg:#f1f5ff;--card:#fff;--ink:#14213d;--mut:#5d6785;--acc:#5b3df5;--hi:#ffd23f;--ok:#17a673;--bad:#e5484d;--line:#d5ddf5;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12141f;--card:#1c2030;--ink:#eef1ff;--mut:#9aa3c4;--acc:#8f7bff;--line:#303653;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#12141f;--card:#1c2030;--ink:#eef1ff;--mut:#9aa3c4;--acc:#8f7bff;--line:#303653;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.5 'Avenir Next','Nunito','Trebuchet MS',system-ui,sans-serif}
+main{max-width:760px;margin:0 auto;padding:16px}
+h1{font-size:1.7rem;margin:.2em 0 .5em;letter-spacing:-.02em}h2{font-size:1.25rem;margin:0}
+.card{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:16px;margin:14px 0}
+.hd{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
+.hint{color:var(--mut);margin:.3em 0 .8em}
+.chip{font:inherit;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 12px;cursor:pointer;margin:0 6px 6px 0;display:inline-block}
+span.chip{cursor:default}.chip.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.lk{transition:background .2s}body.hl .lk{background:var(--hi);color:#14213d;border-radius:4px;padding:0 3px}
+#story p{margin:.6em 0}
+select,input[type=text],textarea{font:inherit;color:var(--ink);background:var(--bg);border:2px solid var(--line);border-radius:10px;padding:6px 10px;max-width:100%}
+input[type=text]{width:100%;margin-top:4px}textarea{width:100%;min-height:150px}
+.q{margin:12px 0;padding:8px 10px;border-left:6px solid var(--line);border-radius:0 10px 10px 0}
+.q.ok{border-color:var(--ok)}.q.no{border-color:var(--bad)}
+.fb{display:block;font-size:.92rem;color:var(--mut)}
+.go{font:inherit;font-weight:700;background:var(--hi);color:#14213d;border:0;border-radius:12px;padding:10px 16px;cursor:pointer;margin-right:8px}
+.sc{font-weight:700;color:var(--acc)}
+.say{border-left:6px solid var(--acc);padding:6px 12px;margin:8px 0;background:var(--bg);border-radius:0 10px 10px 0}
+</style></head><body><main>
+<h1>📱 The day without a phone</h1>
+<div class="card"><div class="hd"><h2>📖 Text</h2><span><button class="chip" onclick="tg()" id="tgb">Hide the text</button></span></div><div id="story"></div></div>
+<div id="app"></div>
+<div class="card"><h2>⭐ Your score: <span class="sc" id="tot">0</span></h2></div>
+</main>
+<script>
+const $=s=>document.querySelector(s),V=id=>($('#'+id)||{}).value||'';
+const L=t=>`<span class="lk">${t}</span>`;
+$('#story').innerHTML=[
+`Nina is fifteen. She lives in a small town with her mum and her cat, Pixel. Every morning she wakes up and ${L('first')} checks her phone. ${L('Then')} she watches videos, writes to her friends and plays games. Her mum says, “You are always on that phone!” ${L('but')} Nina doesn’t listen.`,
+`On Saturday Nina and her best friend Katya want to go to the city. They need to take the bus at nine o’clock. At the bus stop Nina looks in her bag. There is no phone! She is very afraid. “I can’t go without my phone!” she says. ${L('But')} the bus is there, ${L('so')} Katya says, “Come on! It’s only one day.”`,
+`In the city the two girls walk in the old streets. There are a lot of people and there is music in the square. Nina doesn’t know the way ${L('because')} she has no map. ${L('Then')} a boy with a guitar says, “Hello! Do you need help?” His name is Leo. He is from the city and he knows every small shop and café. ${L('First')} he shows the girls a park with a big fountain. ${L('After that')} they go to a market with old books. ${L('Finally')} they eat at the best pizza place in town. Nina is surprised: she isn’t bored, and the day is really nice.`,
+`In the evening the girls are tired and happy. On the bus Nina remembers her phone and laughs. At home she finds it on the kitchen table. There are twenty-three messages, ${L('but')} she doesn’t read them. Before the bus, Leo wrote his name on a small paper: “Find me online.” ${L('So')} Nina takes the phone and writes one message: “Hi Leo! Thank you for today.”`,
+`It was a day without a phone, ${L('but')} it was a day with new friends.`].map(p=>`<p>${p}</p>`).join('');
+function tg(){const s=$('#story'),h=s.style.display=='none';s.style.display=h?'':'none';$('#tgb').textContent=h?'Hide the text':'Show the text'}
+const R={};
+function done(k,g,m){R[k]=[g,m];$('#sc-'+k).textContent=g+' / '+m;let a=0,b=0;for(const v of Object.values(R)){a+=v[0];b+=v[1]}$('#tot').textContent=a+' / '+b}
+const mk=(el,ok,t)=>{el.classList.remove('ok','no');el.classList.add(ok?'ok':'no');const f=el.querySelector('.fb');if(f)f.textContent=t||''};
+const opts=a=>'<option value="">…</option>'+a.map(x=>`<option>${x}</option>`).join('');
+const sec=(k,t,body,btn)=>`<div class="card"><div class="hd"><h2>${t}</h2><span><span class="sc" id="sc-${k}"></span> <button class="chip" onclick="tm(this,${btn||180})">⏱</button></span></div>${body}</div>`;
+let tid;function tm(b,s){clearInterval(tid);let n=s;const f=()=>{b.textContent='⏱ '+Math.floor(n/60)+':'+String(n%60).padStart(2,'0');if(n--<=0){clearInterval(tid);b.textContent='⏱ Time!'}};f();tid=setInterval(f,1000)}
+
+const EV=[['Nina looks in her bag at the bus stop.',1],['A boy with a guitar helps the girls.',2],['The girls see a park with a fountain.',3],['They go to a market with old books.',4],['They eat pizza.',5],['Nina writes a message to Leo.',6]],ORD=[4,0,5,2,1,3];
+const FE=['afraid','bored','happy','tired and happy','angry'];
+const TF=[['Nina lives with her mum and her dog.','False','She lives with her mum and her cat, Pixel.'],['The girls take the bus at nine o’clock.','True',''],['Nina has a map of the city.','False','Nina has no map.'],['Leo is from the city.','True',''],['Katya has a new phone.','Not in the text',''],['Nina reads all the messages at home.','False','She doesn’t read them.']];
+const QA=[['What does Nina do first every morning?',/phone/,'She checks her phone.'],['What time is the bus?',/nine|9/,'It is at nine o’clock.'],['Why does Nina not know the way in the city?',/map/,'Because she has no map.'],['Where do the girls eat?',/pizza/,'They eat at a pizza place.'],['How many messages are on Nina’s phone?',/23|twenty/,'There are 23 messages.'],['What does Leo write on the small paper?',/find|online|name/,'“Find me online.” and his name.']];
+const CL=[['Every morning Nina wakes up and ',' checks her phone.',['first']],['',' she watches videos.',['then','after that']],['Nina can’t find her phone, ',' she is afraid.',['so']],['Nina doesn’t know the way ',' she has no map.',['because']],['Leo shows the girls a park. ',' they go to a market.',['after that','then']],['',' they eat pizza.',['finally']],['There are 23 messages, ',' she doesn’t read them.',['but']]];
+const LK=['first','then','after that','finally','but','so','because'];
+
+$('#app').innerHTML=
+sec('s1','1 · Before you read',`<p class="hint">Talk to your teacher. Don’t write.</p><div class="say">Do you use your phone a lot? What do you do on it?</div><div class="say">Look at the title: <b>The day without a phone</b>. What happens? Is it a good day or a bad day?</div>`,120)+
+sec('g','2 · Read once: the main idea',`<p class="hint">Read the whole text one time. Don’t stop for new words.</p>
+<div class="q" id="g1"><b>What is the story mainly about?</b><br><label><input type="radio" name="g1" value="a"> Nina has no phone and she has a nice day in the city.</label><br><label><input type="radio" name="g1" value="b"> Nina buys a new phone in the city.</label><br><label><input type="radio" name="g1" value="c"> Nina and Katya go to a concert.</label><span class="fb"></span></div>
+<div class="q" id="f1w">How does Nina feel <b>at the bus stop</b>? <select id="f1">${opts(FE)}</select></div>
+<div class="q" id="f2w">How does Nina feel <b>in the evening</b>? <select id="f2">${opts(FE)}</select></div>
+<p><b>Put the events in order (1–6).</b></p>${ORD.map((o,k)=>`<div class="q" id="o${k}w"><select id="o${k}">${opts([1,2,3,4,5,6])}</select> ${EV[o][0]}</div>`).join('')}
+<button class="go" onclick="ckG()">Check</button>`,180)+
+sec('t','3 · Read again: details',`<p class="hint"><b>True, False or Not in the text?</b></p>${TF.map((r,k)=>`<div class="q" id="t${k}"><select id="tf${k}">${opts(['True','False','Not in the text'])}</select> ${r[0]}<span class="fb"></span></div>`).join('')}
+<p class="hint"><b>Answer the questions.</b> Write short answers. Then say a full sentence to your teacher.</p>${QA.map((r,k)=>`<div class="q" id="a${k}"><label>${r[0]}<input type="text" id="qa${k}" autocomplete="off"></label><span class="fb"></span></div>`).join('')}
+<div class="say">Why does Nina laugh on the bus? Do you think the day is good for Nina? Why?</div>
+<button class="go" onclick="ckT()">Check</button>`,360)+
+sec('c','4 · Linking words',`<p class="hint">These words connect the story. <button class="chip" onclick="document.body.classList.toggle('hl')">Show them in the text</button><br>Choose the word.</p>${CL.map((r,k)=>`<div class="q" id="c${k}">${r[0]}<select id="cl${k}">${opts(LK)}</select>${r[1]}<span class="fb"></span></div>`).join('')}<button class="go" onclick="ckC()">Check</button>`,180)+
+sec('r','5 · Retell the story',`<p class="hint">Hide the text. Tell the story to your teacher. Use the linking words.</p><button class="chip" onclick="tg()">Hide / show the text</button>
+<div class="say">🌅 Every morning → 🚌 the bus stop → 🏙️ the city → 🎸 Leo → 🍕 the pizza → 📱 the message</div><p>${LK.map(k=>`<span class="chip">${k}</span>`).join('')}</p>`,240)+
+sec('y','6 · Your day',`<p class="hint">Now it’s about you. Say the answers first. Then write.</p>
+<div class="say">What do you do first every morning? What do you do then?</div>
+<div class="say">Is your phone the first thing you check? What do you check?</div>
+<div class="say">Imagine one day without your phone. Where do you go? Who do you meet? What do you do?</div>
+<div class="say">Is a day without a phone good or bad for you? Why? (… because …)</div>
+<p><b>Write 5 or more sentences:</b> “My day without a phone”. Use at least 3 linking words.</p>
+<textarea id="wr" oninput="wr()" placeholder="First, I … Then, I … After that, … Finally, …"></textarea><p id="lks"></p><p id="wc" class="sc"></p>`,420);
+
+const J=(id,g)=>{const o=$('#'+id);return o};
+function ckG(){let g=0;const m=document.querySelector('input[name=g1]:checked'),k=m&&m.value=='a';mk($('#g1'),k);g+=k?1:0;
+ [['f1','afraid'],['f2','tired and happy']].forEach(([i,a])=>{const o=V(i)==a;mk($('#'+i+'w'),o);g+=o?1:0});
+ ORD.forEach((e,k)=>{const o=V('o'+k)==String(EV[e][1]);mk($('#o'+k+'w'),o);g+=o?1:0});done('g',g,9)}
+function ckT(){let g=0;
+ TF.forEach((r,k)=>{const o=V('tf'+k)==r[1];g+=o?1:0;mk($('#t'+k),o,o?'':(V('tf'+k)?'Look again. '+(r[2]||'It is not in the text.'):''))});
+ QA.forEach((r,k)=>{const o=r[1].test(V('qa'+k).toLowerCase());g+=o?1:0;mk($('#a'+k),o,o?'':'Model: '+r[2])});done('t',g,12)}
+function ckC(){let g=0;CL.forEach((r,k)=>{const v=V('cl'+k),o=r[2].includes(v);g+=o?1:0;mk($('#c'+k),o,o?'':v?'Think: what happens next? why?':'')});done('c',g,7)}
+function wr(){const t=V('wr').toLowerCase(),f=LK.filter(k=>new RegExp('\\b'+k+'\\b').test(t)),w=t.trim()?t.trim().split(/\s+/).length:0,s=(t.match(/[.!?]/g)||[]).length;
+ $('#lks').innerHTML=LK.map(k=>`<span class="chip ${f.includes(k)?'on':''}">${k}</span>`).join('');
+ $('#wc').textContent=`${w} words · ${s} sentences · ${f.length} linking words`+(f.length>=3&&s>=5?' ✔ Goal reached!':'')}
+wr();
+</script></body></html>
